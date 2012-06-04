@@ -10,72 +10,72 @@ describe('is', function () {
 		decimal: 1.5,
 		zero: 0,
 		stringInteger: '1',
-		stringDecimal: '1.5',
+		stringDecimal: '2.5',
 		string: 'hello',
 		array: [0, 1, 2, 1.5, '3', '2.5', 'hello', null, true, false, NaN, {}, [], [1, 2, 3]],
 		object: { },
 		regexp: /hello/,
-		func: function () { },
+		function: function () { },
 		nan: NaN,
 		boolean: true,
-		nul: null
+		'null': null
 	};
 
-	// is.undef
-	it('should not recognise 1 as undef', function () {
-		var result = is.undef(testValues.integer);
+	// is.undefined
+	it('should not recognise 1 as undefined', function () {
+		var result = is.undefined(testValues.integer);
 		expect(result).toBe(false);
 	});
-	it('should not recognise 1.5 as undef', function () {
-		var result = is.undef(testValues.decimal);
+	it('should not recognise 1.5 as undefined', function () {
+		var result = is.undefined(testValues.decimal);
 		expect(result).toBe(false);
 	});
-	it('should not recognise 0 as undef', function () {
-		var result = is.undef(testValues.zero);
+	it('should not recognise 0 as undefined', function () {
+		var result = is.undefined(testValues.zero);
 		expect(result).toBe(false);
 	});
-	it('should not recognise \'1\' as undef', function () {
-		var result = is.undef(testValues.stringInteger);
+	it('should not recognise \'1\' as undefined', function () {
+		var result = is.undefined(testValues.stringInteger);
 		expect(result).toBe(false);
 	});
-	it('should not recognise \'1.5\' as undef', function () {
-		var result = is.undef(testValues.stringDecimal);
+	it('should not recognise \'1.5\' as undefined', function () {
+		var result = is.undefined(testValues.stringDecimal);
 		expect(result).toBe(false);
 	});
-	it('should not recognise \'hello\' as undef', function () {
-		var result = is.undef(testValues.string);
+	it('should not recognise \'hello\' as undefined', function () {
+		var result = is.undefined(testValues.string);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an array as undef', function () {
-		var result = is.undef(testValues.array);
+	it('should not recognise an array as undefined', function () {
+		var result = is.undefined(testValues.array);
 		expect(result).toBe(false);
 	});
-	it('should not recognise {} as undef', function () {
-		var result = is.undef(testValues.object);
+	it('should not recognise {} as undefined', function () {
+		var result = is.undefined(testValues.object);
 		expect(result).toBe(false);
 	});
-	it('should not recognise /hello/ as undef', function () {
-		var result = is.undef(testValues.regexp);
+	it('should not recognise /hello/ as undefined', function () {
+		var result = is.undefined(testValues.regexp);
 		expect(result).toBe(false);
 	});
-	it('should not recognise a function as undef', function () {
-		var result = is.undef(testValues.func);
+	it('should not recognise a function as undefined', function () {
+		var result = is.undefined(testValues.function);
 		expect(result).toBe(false);
 	});
-	it('should not recognise NaN as undef', function () {
-		var result = is.undef(testValues.nan);
+	it('should not recognise NaN as undefined', function () {
+		var result = is.undefined(testValues.nan);
 		expect(result).toBe(false);
 	});
-	it('should not recognise true as undef', function () {
-		var result = is.undef(testValues.boolean);
+	it('should not recognise true as undefined', function () {
+		var result = is.undefined(testValues.boolean);
 		expect(result).toBe(false);
 	});
-	it('should not recognise null as undef', function () {
-		var result = is.undef(testValues.nul);
+	it('should not recognise null as undefined', function () {
+		var result = is.undefined(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should recognise an undefined value as undef', function () {
-		var result = is.undef(testValues.undef);
+	it('should recognise an undefinedined value as undefined', function () {
+		var result = is.undefined(testValues.undefined);
 		expect(result).toBe(true);
 	});
 
@@ -117,7 +117,7 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as empty', function () {
-		var result = is.empty(testValues.func);
+		var result = is.empty(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as empty', function () {
@@ -129,69 +129,119 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should recognise null as empty', function () {
-		var result = is.empty(testValues.nul);
+		var result = is.empty(testValues.null);
 		expect(result).toBe(true);
 	});
-	it('should recognise an undefined value as empty', function () {
-		var result = is.empty(testValues.undef);
+	it('should recognise an undefinedined value as empty', function () {
+		var result = is.empty(testValues.undefined);
 		expect(result).toBe(true);
+	});
+	it('should not recognise [] as empty', function () {
+		var result = is.empty([]);
+		expect(result).toBe(false);
+	});
+	it('should not recognise {} as empty', function () {
+		var result = is.empty({});
+		expect(result).toBe(false);
+	});
+	it('should recognise [] as empty array', function () {
+		var result = is.empty.array([]);
+		expect(result).toBe(true);
+	});
+	it('should not recognise array as empty array', function () {
+		var result = is.empty.array(testValues.array);
+		expect(result).toBe(false);
+	});
+	it('should not recognise {} as empty array', function () {
+		var result = is.empty.array({});
+		expect(result).toBe(false);
+	});
+	it('should recognise {} as empty object', function () {
+		var result = is.empty.object({});
+		expect(result).toBe(true);
+	});
+	it('should not recognise testValues as empty object', function () {
+		var result = is.empty.object(testValues);
+		expect(result).toBe(false);
+	});
+	it('should not recognise [] as empty object', function () {
+		var result = is.empty.object([]);
+		expect(result).toBe(false);
+	});
+	it('should recognise args as empty arguments', function () {
+		(function () {
+			var result = is.empty.array(arguments);
+			expect(result).toBe(true);
+		})();
+	});
+	it('should not recognise args as empty arguments', function () {
+		(function () {
+			var result = is.empty.array(arguments);
+			expect(result).toBe(false);
+		})(testValues.string, testValues.zero);
+	});
+	it('should not recognise args as empty object', function () {
+		(function () {
+			var result = is.empty.object(arguments);
+			expect(result).toBe(false);
+		})(testValues.string, testValues.zero);
 	});
 
-	// is.nul
+	// is.null
 	it('should not recognise 1 as null', function () {
-		var result = is.nul(testValues.integer);
+		var result = is.null(testValues.integer);
 		expect(result).toBe(false);
 	});
 	it('should not recognise 1.5 as null', function () {
-		var result = is.nul(testValues.decimal);
+		var result = is.null(testValues.decimal);
 		expect(result).toBe(false);
 	});
 	it('should not recognise 0 as null', function () {
-		var result = is.nul(testValues.zero);
+		var result = is.null(testValues.zero);
 		expect(result).toBe(false);
 	});
 	it('should not recognise \'1\' as null', function () {
-		var result = is.nul(testValues.stringInteger);
+		var result = is.null(testValues.stringInteger);
 		expect(result).toBe(false);
 	});
 	it('should not recognise \'1.5\' as null', function () {
-		var result = is.nul(testValues.stringDecimal);
+		var result = is.null(testValues.stringDecimal);
 		expect(result).toBe(false);
 	});
 	it('should not recognise \'hello\' as null', function () {
-		var result = is.nul(testValues.string);
+		var result = is.null(testValues.string);
 		expect(result).toBe(false);
 	});
 	it('should not recognise an array as null', function () {
-		var result = is.nul(testValues.array);
+		var result = is.null(testValues.array);
 		expect(result).toBe(false);
 	});
 	it('should not recognise {} as null', function () {
-		var result = is.nul(testValues.object);
+		var result = is.null(testValues.object);
 		expect(result).toBe(false);
 	});
 	it('should not recognise /hello/ as null', function () {
-		var result = is.nul(testValues.regexp);
+		var result = is.null(testValues.regexp);
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as null', function () {
-		var result = is.nul(testValues.func);
+		var result = is.null(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as null', function () {
-		var result = is.nul(testValues.nan);
+		var result = is.null(testValues.nan);
 		expect(result).toBe(false);
 	});
 	it('should not recognise true as null', function () {
-		var result = is.nul(testValues.boolean);
+		var result = is.null(testValues.boolean);
 		expect(result).toBe(false);
 	});
 	it('should recognise null as null', function () {
-		var result = is.nul(testValues.nul);
+		var result = is.null(testValues.null);
 		expect(result).toBe(true);
 	});
-	it('should not recognise an undefined value as null', function () {
-		var result = is.nul(testValues.undef);
+	it('should not recognise an undefinedined value as null', function () {
+		var result = is.null(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -233,7 +283,7 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as boolean', function () {
-		var result = is.boolean(testValues.func);
+		var result = is.boolean(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as boolean', function () {
@@ -245,11 +295,11 @@ describe('is', function () {
 		expect(result).toBe(true);
 	});
 	it('should not recognise null as boolean', function () {
-		var result = is.boolean(testValues.nul);
+		var result = is.boolean(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as boolean', function () {
-		var result = is.boolean(testValues.undef);
+	it('should not recognise an undefinedined value as boolean', function () {
+		var result = is.boolean(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -291,7 +341,7 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as NaN', function () {
-		var result = is.nan(testValues.func);
+		var result = is.nan(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should recognise NaN as NaN', function () {
@@ -303,11 +353,11 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise null as NaN', function () {
-		var result = is.nan(testValues.nul);
+		var result = is.nan(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as NaN', function () {
-		var result = is.nan(testValues.undef);
+	it('should not recognise an undefinedined value as NaN', function () {
+		var result = is.nan(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -349,7 +399,7 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as number', function () {
-		var result = is.number(testValues.func);
+		var result = is.number(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as number', function () {
@@ -361,11 +411,11 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise null as number', function () {
-		var result = is.number(testValues.nul);
+		var result = is.number(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as number', function () {
-		var result = is.number(testValues.undef);
+	it('should not recognise an undefinedined value as number', function () {
+		var result = is.number(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -407,7 +457,7 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as integer', function () {
-		var result = is.integer(testValues.func);
+		var result = is.integer(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as integer', function () {
@@ -419,11 +469,69 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise null as integer', function () {
-		var result = is.integer(testValues.nul);
+		var result = is.integer(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as integer', function () {
-		var result = is.integer(testValues.undef);
+	it('should not recognise an undefinedined value as integer', function () {
+		var result = is.integer(testValues.undefined);
+		expect(result).toBe(false);
+	});
+
+	// is.float
+	it('should not recognise 1 as float', function () {
+		var result = is.float(testValues.integer);
+		expect(result).toBe(false);
+	});
+	it('should recognise 1.5 as float', function () {
+		var result = is.float(testValues.decimal);
+		expect(result).toBe(true);
+	});
+	it('should not recognise 0 as float', function () {
+		var result = is.float(testValues.zero);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'1\' as float', function () {
+		var result = is.float(testValues.stringInteger);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'1.5\' as float', function () {
+		var result = is.float(testValues.stringDecimal);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'hello\' as float', function () {
+		var result = is.float(testValues.string);
+		expect(result).toBe(false);
+	});
+	it('should not recognise an array as float', function () {
+		var result = is.float(testValues.array);
+		expect(result).toBe(false);
+	});
+	it('should not recognise {} as float', function () {
+		var result = is.float(testValues.object);
+		expect(result).toBe(false);
+	});
+	it('should not recognise /hello/ as float', function () {
+		var result = is.float(testValues.regexp);
+		expect(result).toBe(false);
+	});
+	it('should not recognise a function as float', function () {
+		var result = is.float(testValues.function);
+		expect(result).toBe(false);
+	});
+	it('should not recognise NaN as float', function () {
+		var result = is.float(testValues.nan);
+		expect(result).toBe(false);
+	});
+	it('should not recognise true as float', function () {
+		var result = is.float(testValues.boolean);
+		expect(result).toBe(false);
+	});
+	it('should not recognise null as float', function () {
+		var result = is.float(testValues.null);
+		expect(result).toBe(false);
+	});
+	it('should not recognise an undefinedined value as float', function () {
+		var result = is.float(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -465,7 +573,7 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as string', function () {
-		var result = is.string(testValues.func);
+		var result = is.string(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as string', function () {
@@ -477,11 +585,11 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise null as string', function () {
-		var result = is.string(testValues.nul);
+		var result = is.string(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as string', function () {
-		var result = is.string(testValues.undef);
+	it('should not recognise an undefinedined value as string', function () {
+		var result = is.string(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -514,6 +622,12 @@ describe('is', function () {
 		var result = is.object(testValues.array);
 		expect(result).toBe(false);
 	});
+	it('should not recognise an args array as object', function () {
+		(function () {
+			var result = is.object(arguments);
+			expect(result).toBe(false);
+		})(testValues.string, testValues.zero);
+	});
 	it('should recognise {} as object', function () {
 		var result = is.object(testValues.object);
 		expect(result).toBe(true);
@@ -523,7 +637,7 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as object', function () {
-		var result = is.object(testValues.func);
+		var result = is.object(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as object', function () {
@@ -535,11 +649,11 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise null as object', function () {
-		var result = is.object(testValues.nul);
+		var result = is.object(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as object', function () {
-		var result = is.object(testValues.undef);
+	it('should not recognise an undefinedined value as object', function () {
+		var result = is.object(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -572,6 +686,12 @@ describe('is', function () {
 		var result = is.array(testValues.array);
 		expect(result).toBe(true);
 	});
+	it('should not recognise an args array as array', function () {
+		(function () {
+			var result = is.array(arguments);
+			expect(result).toBe(false);
+		})(testValues.string, testValues.zero);
+	});
 	it('should not recognise {} as array', function () {
 		var result = is.array(testValues.object);
 		expect(result).toBe(false);
@@ -581,7 +701,7 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise a function as array', function () {
-		var result = is.array(testValues.func);
+		var result = is.array(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as array', function () {
@@ -593,69 +713,197 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise null as array', function () {
-		var result = is.array(testValues.nul);
+		var result = is.array(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as array', function () {
-		var result = is.array(testValues.undef);
+	it('should not recognise an undefinedined value as array', function () {
+		var result = is.array(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
-	// is.func
+	// is.arrayLike
+	it('should not recognise 1 as arrayLike', function () {
+		var result = is.arrayLike(testValues.integer);
+		expect(result).toBe(false);
+	});
+	it('should not recognise 1.5 as arrayLike', function () {
+		var result = is.arrayLike(testValues.decimal);
+		expect(result).toBe(false);
+	});
+	it('should not recognise 0 as arrayLike', function () {
+		var result = is.arrayLike(testValues.zero);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'1\' as arrayLike', function () {
+		var result = is.arrayLike(testValues.stringInteger);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'1.5\' as arrayLike', function () {
+		var result = is.arrayLike(testValues.stringDecimal);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'hello\' as arrayLike', function () {
+		var result = is.arrayLike(testValues.string);
+		expect(result).toBe(false);
+	});
+	it('should recognise an array as arrayLike', function () {
+		var result = is.arrayLike(testValues.array);
+		expect(result).toBe(true);
+	});
+	it('should recognise an args array as arrayLike', function () {
+		(function () {
+			var result = is.arrayLike(arguments);
+			expect(result).toBe(true);
+		})(testValues.string, testValues.zero);
+	});
+	it('should not recognise {} as arrayLike', function () {
+		var result = is.arrayLike(testValues.object);
+		expect(result).toBe(false);
+	});
+	it('should not recognise /hello/ as arrayLike', function () {
+		var result = is.arrayLike(testValues.regexp);
+		expect(result).toBe(false);
+	});
+	it('should not recognise a function as arrayLike', function () {
+		var result = is.arrayLike(testValues.function);
+		expect(result).toBe(false);
+	});
+	it('should not recognise NaN as arrayLike', function () {
+		var result = is.arrayLike(testValues.nan);
+		expect(result).toBe(false);
+	});
+	it('should not recognise true as arrayLike', function () {
+		var result = is.arrayLike(testValues.boolean);
+		expect(result).toBe(false);
+	});
+	it('should not recognise null as arrayLike', function () {
+		var result = is.arrayLike(testValues.null);
+		expect(result).toBe(false);
+	});
+	it('should not recognise an undefinedined value as arrayLike', function () {
+		var result = is.arrayLike(testValues.undefined);
+		expect(result).toBe(false);
+	});
+
+		// is.arguments
+	it('should not recognise 1 as arguments', function () {
+		var result = is.arguments(testValues.integer);
+		expect(result).toBe(false);
+	});
+	it('should not recognise 1.5 as arguments', function () {
+		var result = is.arguments(testValues.decimal);
+		expect(result).toBe(false);
+	});
+	it('should not recognise 0 as arguments', function () {
+		var result = is.arguments(testValues.zero);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'1\' as arguments', function () {
+		var result = is.arguments(testValues.stringInteger);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'1.5\' as arguments', function () {
+		var result = is.arguments(testValues.stringDecimal);
+		expect(result).toBe(false);
+	});
+	it('should not recognise \'hello\' as arguments', function () {
+		var result = is.arguments(testValues.string);
+		expect(result).toBe(false);
+	});
+	it('should recognise an array as array', function () {
+		var result = is.array(testValues.array);
+		expect(result).toBe(true);
+	});
+	it('should recognise an args array as arguments', function () {
+		(function () {
+			var result = is.arguments(arguments);
+			expect(result).toBe(true);
+		})(testValues.string, testValues.zero);
+	});
+	it('should not recognise {} as arguments', function () {
+		var result = is.arguments(testValues.object);
+		expect(result).toBe(false);
+	});
+	it('should not recognise /hello/ as arguments', function () {
+		var result = is.arguments(testValues.regexp);
+		expect(result).toBe(false);
+	});
+	it('should not recognise a function as arguments', function () {
+		var result = is.arguments(testValues.function);
+		expect(result).toBe(false);
+	});
+	it('should not recognise NaN as arguments', function () {
+		var result = is.arguments(testValues.nan);
+		expect(result).toBe(false);
+	});
+	it('should not recognise true as arguments', function () {
+		var result = is.arguments(testValues.boolean);
+		expect(result).toBe(false);
+	});
+	it('should not recognise null as arguments', function () {
+		var result = is.arguments(testValues.null);
+		expect(result).toBe(false);
+	});
+	it('should not recognise an undefinedined value as arguments', function () {
+		var result = is.arguments(testValues.undefined);
+		expect(result).toBe(false);
+	});
+
+	// is.function
 	it('should not recognise 1 as function', function () {
-		var result = is.func(testValues.integer);
+		var result = is.function(testValues.integer);
 		expect(result).toBe(false);
 	});
 	it('should not recognise 1.5 as function', function () {
-		var result = is.func(testValues.decimal);
+		var result = is.function(testValues.decimal);
 		expect(result).toBe(false);
 	});
 	it('should not recognise 0 as function', function () {
-		var result = is.func(testValues.zero);
+		var result = is.function(testValues.zero);
 		expect(result).toBe(false);
 	});
 	it('should not recognise \'1\' as function', function () {
-		var result = is.func(testValues.stringInteger);
+		var result = is.function(testValues.stringInteger);
 		expect(result).toBe(false);
 	});
 	it('should not recognise \'1.5\' as function', function () {
-		var result = is.func(testValues.stringDecimal);
+		var result = is.function(testValues.stringDecimal);
 		expect(result).toBe(false);
 	});
 	it('should not recognise \'hello\' as function', function () {
-		var result = is.func(testValues.string);
+		var result = is.function(testValues.string);
 		expect(result).toBe(false);
 	});
 	it('should not recognise an array as function', function () {
-		var result = is.func(testValues.array);
+		var result = is.function(testValues.array);
 		expect(result).toBe(false);
 	});
 	it('should not recognise {} as function', function () {
-		var result = is.func(testValues.object);
+		var result = is.function(testValues.object);
 		expect(result).toBe(false);
 	});
 	it('should not recognise /hello/ as function', function () {
-		var result = is.func(testValues.regexp);
+		var result = is.function(testValues.regexp);
 		expect(result).toBe(false);
 	});
 	it('should recognise a function as function', function () {
-		var result = is.func(testValues.func);
+		var result = is.function(testValues.function);
 		expect(result).toBe(true);
 	});
 	it('should not recognise NaN as function', function () {
-		var result = is.func(testValues.nan);
+		var result = is.function(testValues.nan);
 		expect(result).toBe(false);
 	});
 	it('should not recognise true as function', function () {
-		var result = is.func(testValues.boolean);
+		var result = is.function(testValues.boolean);
 		expect(result).toBe(false);
 	});
 	it('should not recognise null as function', function () {
-		var result = is.func(testValues.nul);
+		var result = is.function(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as function', function () {
-		var result = is.func(testValues.undef);
+	it('should not recognise an undefinedined value as function', function () {
+		var result = is.function(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -697,7 +945,7 @@ describe('is', function () {
 		expect(result).toBe(true);
 	});
 	it('should not recognise a function as RegExp', function () {
-		var result = is.regexp(testValues.func);
+		var result = is.regexp(testValues.function);
 		expect(result).toBe(false);
 	});
 	it('should not recognise NaN as RegExp', function () {
@@ -709,11 +957,11 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 	it('should not recognise null as RegExp', function () {
-		var result = is.regexp(testValues.nul);
+		var result = is.regexp(testValues.null);
 		expect(result).toBe(false);
 	});
-	it('should not recognise an undefined value as RegExp', function () {
-		var result = is.regexp(testValues.undef);
+	it('should not recognise an undefinedined value as RegExp', function () {
+		var result = is.regexp(testValues.undefined);
 		expect(result).toBe(false);
 	});
 
@@ -758,8 +1006,8 @@ describe('is', function () {
 		var result = is.inArray(null, testValues.array);
 		expect(result).toBe(true);
 	});
-	it('should not find undefined in array', function () {
-		var result = is.inArray(testValues.undef, testValues.array);
+	it('should not find undefinedined in array', function () {
+		var result = is.inArray(testValues.undefined, testValues.array);
 		expect(result).toBe(false);
 	});
 	it('should not find an object literal in array', function () {
@@ -776,6 +1024,68 @@ describe('is', function () {
 	});
 	it('should find the array\'s empty array literal in array', function () {
 		var result = is.inArray(testValues.array[12], testValues.array);
+		expect(result).toBe(true);
+	});
+
+	// is.inObject
+	it('should find 1 in object', function () {
+		var result = is.inObject(1, testValues);
+		expect(result).toBe(true);
+	});
+	it('should find 1.5 in object', function () {
+		var result = is.inObject(1.5, testValues);
+		expect(result).toBe(true);
+	});
+	it('should not find 2.5 in object', function () {
+		var result = is.inObject(2.5, testValues);
+		expect(result).toBe(false);
+	});
+	it('should find \'2.5\' in object', function () {
+		var result = is.inObject('2.5', testValues);
+		expect(result).toBe(true);
+	});
+	it('should find \'hello\' in object', function () {
+		var result = is.inObject('hello', testValues);
+		expect(result).toBe(true);
+	});
+	it('should find null in object', function () {
+		var result = is.inObject(null, testValues);
+		expect(result).toBe(true);
+	});
+	it('should find true in object', function () {
+		var result = is.inObject(true, testValues);
+		expect(result).toBe(true);
+	});
+	it('should not find false in object', function () {
+		var result = is.inObject(false, testValues);
+		expect(result).toBe(false);
+	});
+	it('should not find NaN in object (to be compatible with indexOf())', function () {
+		var result = is.inObject(NaN, testValues);
+		expect(result).toBe(false);
+	});
+	it('should find null in object', function () {
+		var result = is.inObject(null, testValues);
+		expect(result).toBe(true);
+	});
+	it('should not find undefinedined in object', function () {
+		var result = is.inObject(testValues.undefined, testValues);
+		expect(result).toBe(false);
+	});
+	it('should not find an object literal in object', function () {
+		var result = is.inObject({}, testValues);
+		expect(result).toBe(false);
+	});
+	it('should not find an array literal in object', function () {
+		var result = is.inObject([], testValues);
+		expect(result).toBe(false);
+	});
+	it('should find the array\'s object literal in object', function () {
+		var result = is.inObject(testValues.object, testValues);
+		expect(result).toBe(true);
+	});
+	it('should find the array\'s empty array literal in object', function () {
+		var result = is.inObject(testValues.array, testValues);
 		expect(result).toBe(true);
 	});
 });

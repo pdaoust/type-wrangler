@@ -13,98 +13,151 @@
  *
  * Just remember that! */
 
-var exports = module.exports = {}
+(function (exports) {
+	var toString = {}.toString,
+		hasOwnProperty = {}.hasOwnProperty;
 
-exports.undef = function isUndef (value) {
-	return typeof value === 'undefined';
-};
+	exports.undefined = function isUndefined (value) {
+		return typeof value === 'undefined';
+	};
 
-exports.empty = function isEmpty (value) {
-	return value == null;
-};
+	exports.empty = function isEmpty (value) {
+		return value == null;
+	};
 
-exports.nul = function isNul (value) {
-	return value === null;
-};
+	exports.empty.array = exports.empty.arguments = function isEmptyArray (value) {
+		return value.length === 0;
+	}
 
-exports.boolean = function isBoolean (value) {
-	return typeof value === 'boolean';
-};
+	exports.empty.object = function isEmptyObject (value) {
+		var i, j = 0;
+		if (!exports.object(value)) {
+			return false;
+		}
+		for (i in value) {
+			if (value.hasOwnProperty(i)) {
+				j ++;
+			}
+		}
+		return !j;
+	};
 
-exports.nan = function isNan (value) {
-	return isNaN(value) && typeof value === 'number';
-};
+	exports.null = function isNull (value) {
+		return value === null;
+	};
 
-exports.number = function isNumber (value) {
-	return typeof value === 'number' && !isNaN(value);
-};
+	exports.boolean = function isBoolean (value) {
+		return typeof value === 'boolean';
+	};
 
-exports.integer = function isInteger (value) {
-	return value === (value | 0);
-};
+	exports.nan = function isNan (value) {
+		return isNaN(value) && typeof value === 'number';
+	};
 
-exports.string = function isString (value) {
-	return typeof value === 'string';
-};
+	exports.number = function isNumber (value) {
+		return typeof value === 'number' && !isNaN(value);
+	};
 
-exports.object = function isObject (value) {
-	if (typeof value === 'object') {
-		if (value !== null) {
-			if (!(value instanceof RegExp)) {
-				if (!exports.array(value)) {
-					return true;
+	exports.integer = function isInteger (value) {
+		return value === (value | 0);
+	};
+
+	exports.float = function isFloat (value) {
+		return exports.number(value) && value !== (value | 0);
+	};
+
+	exports.string = function isString (value) {
+		return typeof value === 'string';
+	};
+
+	exports.object = function isObject (value) {
+		if (typeof value === 'object') {
+			if (value !== null) {
+				if (!(value instanceof RegExp)) {
+					if (!exports.arrayLike(value)) {
+						return true;
+					}
 				}
 			}
 		}
-	}
-	return false;
-};
+		return false;
+	};
 
-exports.array = function isArray (value) {
-	if (typeof value === 'object') {
-		if (value) {
-			if (typeof value.length === 'number' &&
-				!(value.propertyIsEnumerable('length')) &&
-				typeof value.splice === 'function') {
-				return true;
+	exports.array = function isArray (value) {
+		return toString.call(value) === '[object Array]';
+	};
+
+	/* is.arrayLike()
+	 * checks to see if value has a length property and is neither a function
+	 * nor a string */
+	exports.arrayLike = function isArrayLike (value) {
+		return value != null // guard against trying to cast null to object
+			&& typeof value !== 'string'
+			&& hasOwnProperty.call(value, 'length')
+			&& !exports.function(value)
+			&& isFinite(value.length);
+	};
+
+	exports.arguments = function isArguments (value) {
+		return toString.call(value) === '[object Arguments]';
+	}
+
+	exports.function = function isFunction (value) {
+		return value instanceof Function;
+	};
+
+	exports.regexp = function isRegexp (value) {
+		return value instanceof RegExp;
+	};
+
+	exports.inArray = function isInArray (needle, haystack) {
+		var i;
+		if (haystack === undefined) {
+			// can be called; will work on this if haystack is undefined
+			if (exports.arrayLike(this)) {
+				haystack = this;
+			} else {
+				return false;
 			}
 		}
-	}
-	return false;
-};
-
-exports.func = function isFunc (value) {
-	return value instanceof Function;
-};
-
-exports.regexp = function isRegexp (value) {
-	return value instanceof RegExp;
-};
-
-exports.inArray = function isInArray (needle, haystack) {
-	var i;
-	if (!exports.array(haystack)) {
-		if (exports.array(this)) {
-			haystack = this;
+		if (typeof Array.prototype.indexOf === 'function') {
+			return haystack.indexOf(needle) !== -1;
 		} else {
+			for (i = haystack.length; i >= 0; i --) {
+				if (haystack[i] === needle) {
+					return true;
+				}
+			}
 			return false;
 		}
-	}
-	if (typeof Array.prototype.indexOf === 'function') {
-		return haystack.indexOf(needle) !== -1;
-	} else {
-		for (i = haystack.length; i >= 0; i --) {
+	};
+
+	exports.inObject = function isInObject (needle, haystack) {
+		var i;
+		if (haystack === undefined) {
+			// can be called; will work on this if haystack is undefined
+			if (exports.object(this)) {
+				haystack = this;
+			} else {
+				return false;
+			}
+		}
+		for (i in haystack) {
 			if (haystack[i] === needle) {
 				return true;
 			}
 		}
 		return false;
-	}
-};
+	};
 
-exports.inString = function isInString (needle, haystack) {
-	if (typeof haystack !== 'string') {
-		haystack = haystack + '';
+	exports.ownProperty = function isOwnProperty (property, object) {
+		return hasOwnProperty.call(object, property);
 	}
-	return haystack.indexOf(needle) !== -1;
-};
+
+	exports.inString = function isInString (needle, haystack) {
+		if (typeof haystack !== 'string') {
+			haystack = toString.call(haystack);
+		}
+		return haystack.indexOf(needle) !== -1;
+	};
+})(this);
