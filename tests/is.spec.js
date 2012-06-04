@@ -2,7 +2,7 @@
  * @author Paul d'Aoust
  */
 
-var is = require('../lib/is');
+var is = require('../is');
 
 describe('is', function () {
 	var testValues = {
