@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "main": "is.js",
   "scripts": {
-    "test": "jasmine tests/is.spec.js"
+    "test": "jasmine-node tests/is.spec.js"
   },
   "dependencies": {},
   "devDependencies": {},
