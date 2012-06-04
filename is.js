@@ -7,11 +7,7 @@
  *
  * et cetera. Nothing earth-shattering, and it's certainly a bunch of rules we
  * should all know; I just wanted to create something simple so I wouldn't have
- * to keep remembering the rules. NOTE: a few types are reserved words, so...
- *
- * 		is.func, is.nan, is.undef, is.nul
- *
- * Just remember that! */
+ * to keep remembering the rules. */
 
 (function (exports) {
 	var toString = {}.toString,
@@ -110,7 +106,22 @@
 		return value instanceof RegExp;
 	};
 
-	exports.inArray = function isInArray (needle, haystack) {
+	exports.in = function isIn (needle, haystack) {
+		var searchFunction;
+		if (haystack === undefined) {
+			haystack = this;
+		}
+		if (exports.string(haystack)) {
+			searchFunction = exports.inString;
+		} else if (exports.arrayLike(haystack)) {
+			searchFunction = exports.inArray;
+		} else {
+			searchFunction = exports.inObject;
+		}
+		return searchFunction(needle, haystack);
+	};
+
+	exports.inArray = exports.in.array = function isInArray (needle, haystack) {
 		var i;
 		if (haystack === undefined) {
 			// can be called; will work on this if haystack is undefined
@@ -132,7 +143,7 @@
 		}
 	};
 
-	exports.inObject = function isInObject (needle, haystack) {
+	exports.inObject = exports.in.object = function isInObject (needle, haystack) {
 		var i;
 		if (haystack === undefined) {
 			// can be called; will work on this if haystack is undefined
@@ -154,7 +165,7 @@
 		return hasOwnProperty.call(object, property);
 	}
 
-	exports.inString = function isInString (needle, haystack) {
+	exports.inString = exports.in.string = function isInString (needle, haystack) {
 		if (typeof haystack !== 'string') {
 			haystack = toString.call(haystack);
 		}
