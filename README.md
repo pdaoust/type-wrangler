@@ -16,7 +16,7 @@ All checking is strict, unless otherwise noted. Each function returns either tru
 * `is.empty( value )` - checks for null or undefined
 * `is.empty.array( value )` or `is.emptyArray( value )` - must be an array-like object and have no items
 * `is.empty.arguments( value )` or `is.emptyArguments( value )` - identical to above
-* `is.empty.object( value )` - must be an object and have no properties of its own; objects with properties in their prototype chains will also fail
+* `is.empty.object( value )` or `is.emptyObject( value )` - must be an object and have no properties of its own; objects with properties in their prototype chains will also fail
 * `is.null( value )`
 * `is.boolean( value )`
 * `is.nan( value )` - really not necessary, since it merely calls `isNan()`. But I just included it to be thorough.
