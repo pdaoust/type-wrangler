@@ -2,7 +2,7 @@
  * @author Paul d'Aoust
  */
 
-var is = require('../is');
+var is = require('../index').is;
 
 describe('is', function () {
 	var testValues = {
@@ -166,7 +166,7 @@ describe('is', function () {
 	});
 	it('should not recognise [] as empty object', function () {
 		var result = is.empty.object([]);
-		expect(result).toBe(false);
+		expect(result).toBeFalsy();
 	});
 	it('should recognise args as empty arguments', function () {
 		(function () {
@@ -183,7 +183,7 @@ describe('is', function () {
 	it('should not recognise args as empty object', function () {
 		(function () {
 			var result = is.empty.object(arguments);
-			expect(result).toBe(false);
+			expect(result).toBeFalsy();
 		})(testValues.string, testValues.zero);
 	});
 
@@ -721,6 +721,70 @@ describe('is', function () {
 		expect(result).toBe(false);
 	});
 
+	// is.enumerable
+	it('should not recognise 1 as enumerable', function () {
+		var result = is.enumerable(testValues.integer);
+		expect(result).toBe(false);
+	});
+	it('should not recognise 1.5 as enumerable', function () {
+		var result = is.enumerable(testValues.decimal);
+		expect(result).toBe(false);
+	});
+	it('should not recognise 0 as enumerable', function () {
+		var result = is.enumerable(testValues.zero);
+		expect(result).toBe(false);
+	});
+	it('should recognise \'1\' as enumerable', function () {
+		var result = is.enumerable(testValues.stringInteger);
+		expect(result).toBe(true);
+	});
+	it('should recognise \'1.5\' as enumerable', function () {
+		var result = is.enumerable(testValues.stringDecimal);
+		expect(result).toBe(true);
+	});
+	it('should recognise \'hello\' as enumerable', function () {
+		var result = is.enumerable(testValues.string);
+		expect(result).toBe(true);
+	});
+	it('should recognise an array as enumerable', function () {
+		var result = is.enumerable(testValues.array);
+		expect(result).toBe(true);
+	});
+	it('should recognise an args array as enumerable', function () {
+		(function () {
+			var result = is.enumerable(arguments);
+			expect(result).toBe(true);
+		})(testValues.string, testValues.zero);
+	});
+	it('should not recognise {} as enumerable', function () {
+		var result = is.enumerable(testValues.object);
+		expect(result).toBe(false);
+	});
+	it('should not recognise /hello/ as enumerable', function () {
+		var result = is.enumerable(testValues.regexp);
+		expect(result).toBe(false);
+	});
+	it('should not recognise a function as enumerable', function () {
+		var result = is.enumerable(testValues.function);
+		expect(result).toBe(false);
+	});
+	it('should not recognise NaN as enumerable', function () {
+		var result = is.enumerable(testValues.nan);
+		expect(result).toBe(false);
+	});
+	it('should not recognise true as enumerable', function () {
+		var result = is.enumerable(testValues.boolean);
+		expect(result).toBe(false);
+	});
+	it('should not recognise null as enumerable', function () {
+		var result = is.enumerable(testValues.null);
+		expect(result).toBe(false);
+	});
+	it('should not recognise an undefinedined value as enumerable', function () {
+		var result = is.enumerable(testValues.undefined);
+		expect(result).toBe(false);
+	});
+
 	// is.arrayLike
 	it('should not recognise 1 as arrayLike', function () {
 		var result = is.arrayLike(testValues.integer);
@@ -746,9 +810,9 @@ describe('is', function () {
 		var result = is.arrayLike(testValues.string);
 		expect(result).toBe(false);
 	});
-	it('should recognise an array as arrayLike', function () {
+	it('should not recognise an array as arrayLike', function () {
 		var result = is.arrayLike(testValues.array);
-		expect(result).toBe(true);
+		expect(result).toBeFalsy();
 	});
 	it('should recognise an args array as arrayLike', function () {
 		(function () {

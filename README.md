@@ -27,7 +27,8 @@ All checking is strict, unless otherwise noted. Each function returns either tru
 * `is.string( value )`
 * `is.object( value )` - anything considered to be an object, except `null`, regular expressions, arrays, or array-like objects. Functions are considered objects, of course.
 * `is.array( value )` - any good old honest 'true' array.
-* `is.arrayLike( value )` - arrays and array-like objects.
+* `is.enumerable( value )` - arrays, array-like objects, and strings. Anything that can be iterated upon. (Yes, that does include strings!)
+* `is.arrayLike( value )` - array-like objects (but not arrays).
 * `is.arguments( value )` - the `arguments` array-like object.
 * `is.function( value )`
 * `is.regexp( value )`
