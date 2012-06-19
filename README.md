@@ -1,7 +1,7 @@
-# is-helpers
-`is-helpers` is a very small CommonJS module that smoothes over some of the gotchas in JavaScript type checking. It behaves the way you (or rather, I) would expect type checking to work -- e.g., `is.object()` only works on objects that are neither arrays nor regular expressions. It also makes `indexOf()` easier to use, and provides search functions. Works in Node; should work in browser as well, exporting a variable `is` into the global namespace.
+# Wrangler
+`Wrangler` is a very small CommonJS module that smoothes over some of the gotchas in JavaScript type checking and casting. It behaves the way you (or rather, I) would expect type checking and casting to work -- e.g., `is.object()` only works on objects that are neither arrays nor regular expressions. It also makes `indexOf()` easier to use, and provides search functions. Works in Node; should work in browser as well, exporting the objects `is` and `to` into the global namespace.
 
-None of these techniques are earth-shattering; most people will use these in their daily work. I just didn't want to have to remember all of these tricks.
+None of these techniques are earth-shattering; most people will use these in their daily work. I just didn't want to have to remember all of them while I was banging out code.
 
 Test coverage is as thorough as my imagination allows. I used Jasmine for unit testing.
 
@@ -36,6 +36,18 @@ All checking is strict, unless otherwise noted. Each function returns either tru
 * `is.in.object( needle [, haystack] )` or `is.inObject( needle [, haystack] )` - works only on haystacks that pass the `is.object()` test.
 * `is.in.string( needle [, haystack] )` or `is.inString( needle [, haystack] )` - string search; converts non-strings to strings.
 * `is.ownProperty( property [, object] )` - calls `Object.prototype.hasOwnProperty()` on the object. If the object is not supplied, `this` is assumed.
+
+### Type casting
+
+* `to.boolean( value )`
+* `to.number( value )` or `to.float( value )` - calls `parseFloat()` on the value; therefore, it may return `NaN`.
+* `to.integer( value )` - returns the integral part of the value. Acts as floor for positive numbers and ceiling for negative integers.
+* `to.string( value )`
+* `to.array( value )` - casts array-like objects to arrays and everything else to an array containing a single element, which happens to be the passed value.
+* `to.regexp( value )` - if the value is a string, returns a regular expression using the `new RegExp()` constructor. Returns `undefined` if the value is not a string.
+* `to.date( value )` - returns a new date object using the `new Date()` constructor.
+
+More typecasting to follow, as I think of cases that need it!
 
 ## The other `is`
 
