@@ -61,11 +61,15 @@
 		},
 
 		infinite: function (value) {
-			return typeof value === 'number' && !is.finite(value) && !isNaN(value);
+			return typeof value === 'number' && !isFinite(value) && !isNaN(value);
+		},
+
+		finite: function (value) {
+			return isFinite(value);
 		},
 	
 		number: function (value) {
-			return typeof value === 'number' && is.finite(value);
+			return typeof value === 'number' && isFinite(value);
 		},
 	
 		integer: function (value) {
