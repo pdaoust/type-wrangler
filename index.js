@@ -1,4 +1,4 @@
-/* Wrangler -- convenience object for testing/casting certain types and
+/* Type Wrangler -- convenience object for testing/casting certain types and
  * smoothing out JavaScript weirdness like:
  *
  * 		undefined !== undefined
