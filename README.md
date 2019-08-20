@@ -1,5 +1,5 @@
-# Wrangler
-`Wrangler` is a very small CommonJS module that smoothes over some of the gotchas in JavaScript type checking and casting. It behaves the way you (or rather, I) would expect type checking and casting to work -- e.g., `is.object()` only works on objects that are neither arrays nor regular expressions. It also makes `indexOf()` easier to use, and provides search functions. Works in Node; should work in browser as well, exporting the objects `is` and `to` into the global namespace.
+# Type Wrangler
+Type Wrangler is a very small CommonJS module that smoothes over some of the gotchas in JavaScript type checking and casting. It behaves the way you (or rather, I) would expect type checking and casting to work -- e.g., `is.object()` only works on objects that are neither arrays nor regular expressions. It also makes `indexOf()` easier to use, and provides search functions. Works in Node; should work in browser as well, exporting the objects `is` and `to` into the global namespace.
 
 None of these techniques are earth-shattering; most people will use these in their daily work. I just didn't want to have to remember all of them while I was banging out code.
 
@@ -53,3 +53,7 @@ More typecasting to follow, as I think of cases that need it!
 ## The other `is`
 
 Note: This is not the same as the `is` by Enrico Marino, which is another interesting JavaScript type checking library. He uses some neat techniques, and also adds functions for comparison (e.g., `is.gt()`, `is.odd()`, `is.divisibleBy()`) which I had no interest in. You can find his library at https://github.com/onirame/is
+
+## The other Wrangler
+
+This used to be called Wrangler, but I've changed it to Type Wrangler to accommodate CloudFlare, who have [a package of the same name](https://github.com/cloudflare/wrangler). Apparently it's used for working on their distributed workers, which sound very cool.
